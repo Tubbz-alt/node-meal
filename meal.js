@@ -1,5 +1,5 @@
 const httpntlm = require('httpntlm');
-const ntlmAuth = require('./auth.js').options;
+const ntlmAuth = require('./ntlmAuth.js').options;
 const spasAuth = require('./spasAuth.js').options;
 const isHoliday = require('./holidays.js').isHoliday;
 

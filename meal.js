@@ -43,43 +43,49 @@ function sendData(method, params) {
 }
 
 function submitMeal(mealTime, response) {
-	let paramOfMealSubmit = Object.assign({
+	let param = Object.assign({
+		cmbMealCode: mealTime, 
 		__EVENTTARGET: '',
 		cmdSubmit: '本人订餐',
-		cmbMealName: 'F1:米饭',
-	}, Object.assign(commonFormData, {cmbMealCode: mealTime}));
+		cmbMealName: 'F1:米饭'
+	} , viewStats(response.body), commonFormData);
 
-	let dateStr = toDateString(MEAL_DATE);
-	return sendData('post', 
-		Object.assign({url: `http://cvppasip02/SPAS/Meal/Meal.aspx?d=${dateStr}`}, 
-			{parameters: Object.assign(viewStats(response.body), paramOfMealSubmit)}));
+	return sendData('post', {
+		url: `http://cvppasip02/SPAS/Meal/Meal.aspx?d=${toDateString(MEAL_DATE)}`, 
+		parameters: param
+	});
 }
 
 function setMealTime(mealTime, response) {
-	let paramOfMealTime = Object.assign({
+	let param = Object.assign({
+		cmbMealCode: mealTime, 
 		__EVENTTARGET: 'cmbMealCode',
-		cmbMealName: '',
-	}, Object.assign(commonFormData, {cmbMealCode: mealTime}));
+		cmbMealName: ''
+	}, viewStats(response.body), commonFormData);
 
-	return sendData('post', 
-		Object.assign({url: `http://cvppasip02/SPAS/Meal/Meal.aspx`}, 
-			{parameters: Object.assign(viewStats(response.body), paramOfMealTime)}));
+	return sendData('post', {
+		url: `http://cvppasip02/SPAS/Meal/Meal.aspx`, 
+		parameters: param
+	});
 }
 
 function setMealDate(response) {
-	let dateStr = toDateString(MEAL_DATE);
-	return sendData('get', 
-		Object.assign({url: `http://cvppasip02/SPAS/Meal/Meal.aspx?d=${dateStr}`}));
+	return sendData('get', {
+		url: `http://cvppasip02/SPAS/Meal/Meal.aspx?d=${toDateString(MEAL_DATE)}`
+	});
 }
 
 function loginSPAS(response) {
-	return sendData('post', 
-		Object.assign({url: 'http://cvppasip02/SPAS/FormLeft.aspx'}, 
-			{parameters: Object.assign(viewStats(response.body), spasAuth)}));
+	return sendData('post', {
+		url: 'http://cvppasip02/SPAS/FormLeft.aspx', 
+		parameters: Object.assign(viewStats(response.body), spasAuth)
+	});
 }
 
 function openSPAS() {
-	return sendData('get',{url: 'http://cvppasip02/SPAS/FormLeft.aspx'});
+	return sendData('get', {
+		url: 'http://cvppasip02/SPAS/FormLeft.aspx'
+	});
 }
 
 function viewStats(html) {
